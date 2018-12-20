@@ -22,14 +22,7 @@
       </small>
     </h3>
     <div class="card-body">
-      {% if user.ckey %}
-        {{book.content|raw}}
-      {% elseif book.nsfw %}
-        <div class="alert alert-danger"><strong>Censored!</strong> You must be <a href="{{path_for('auth')}}">logged in</a> to read books in this category!</div>
-        {{book.content|censor|nl2br}}
-      {% else %}
-        {{book.content|raw}}
-      {% endif %}
+      {{book.content|raw}}
     </div>
     <div class="card-footer">
       Published {{book.datetime|timestamp}}
