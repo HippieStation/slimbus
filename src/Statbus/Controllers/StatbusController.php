@@ -13,7 +13,7 @@ class StatbusController extends Controller {
   public function __construct(ContainerInterface $container) {
     parent::__construct($container);
     $this->guzzle = $this->container->get('guzzle');
-    $this->user = $this->container->get('user')->user;
+    $this->user = $this->container->get('user');
   }
 
   public function index($request, $response, $args) {
@@ -48,6 +48,7 @@ class StatbusController extends Controller {
     }
     $admins = $this->DB->run("SELECT A.ckey, 
       A.rank,
+      A.feedback,
       R.flags,
       R.exclude_flags,
       R.can_edit_flags,
@@ -73,7 +74,23 @@ class StatbusController extends Controller {
         }
       }
       $a->total = $a->ghost + $a->living;
+      if(isset($args['json'])) continue;
       $a = $pm->parsePlayer($a);
+    }
+    if(isset($args['wiki'])) {
+      $return = '';
+      foreach ($admins as $a){
+        $return.= "{{Admin<br>";
+        $return.= "|Name=$a->ckey<br>";
+        $return.= "|Rank=$a->rank<br>";
+        $return.= "|Feedback=$a->feedback";
+        $return.= "}}<br>";
+      }
+      return $this->view->render($response, 'dump.tpl',[
+        'dump' => $return,
+        'wide' => true
+      ]);
+      return $this->admins2wiki($admins,$this->container->get('settings')['statbus']['ranks']);
     }
     return $this->view->render($response, 'info/admins.tpl',[
       'admins'   => $admins,
@@ -197,7 +214,8 @@ class StatbusController extends Controller {
     fclose($file);
     return $this->view->render($this->response, 'info/heatmap.tpl',[
       'data' => json_encode($data),
-      'hash' => $hash
+      'hash' => $hash,
+      'wide' => TRUE
     ]);
   }
 

@@ -8,7 +8,7 @@
 ## Requirements
 - PHP 7.2
 - Composer
-- A MySQL user with **read-only grants** to your Space Station 13 database
+- A MySQL user with **read-only privileges** to your Space Station 13 database
 - (optional) A second database for saving some parsed data
 
 ## Setup
@@ -37,3 +37,8 @@ There are several files you can edit in order to tailor Statbus to your codebase
 - `src/conf/servers.json` can be used to map server information. At the minimum, you must specify a server port and name. See `src/conf/example-servers.json`.
 - `src/conf/ranks.json` holds the definitions for admin rank badge colors and icons. See `src/conf/example-ranks.json` for examples. The icon field sources icons from [FontAwsome](https://fontawesome.com/icons?d=gallery&s=solid&m=free). You only need the name of the icon, the part after `fa-`. 
 - `src/conf/jobs.json` can be used to customize what jobs are looked at for querying role_time data (as seen on `/me`). You should copy `src/conf/example-jobs.json` into your `jobs.json` and add or remove jobs from that listing.
+
+##Development
+Slimbus can be set up in a local development environment with Docker.
+
+

@@ -43,6 +43,7 @@ class UserController Extends Controller {
       return;
     }
     $this->user->rank = $this->DB->row("SELECT tbl_admin.rank,
+      tbl_admin.feedback,
       tbl_admin_ranks.flags,
       tbl_admin_ranks.exclude_flags,
       tbl_admin_ranks.can_edit_flags
@@ -81,11 +82,41 @@ class UserController Extends Controller {
   }
 
    public function me($request, $response, $args) {
-    $roleData = $this->PC->getRoleData($this->user->ckey);
+    // $roleData = $this->PC->getRoleData($this->user->ckey);
     $lastWords = $this->PC->getLastWords($this->user->ckey);
     return $this->view->render($response, 'me/index.tpl',[
-      'roleData'  => $roleData,
       'lastWords' => $lastWords
+    ]);
+  }
+
+   public function addFeedback($request, $response, $args) {
+    $feedback = filter_var($request->getParam('feedback'), FILTER_VALIDATE_URL);
+    if($feedback){
+      try{
+        $this->DB->update('tbl_admin',[
+          'feedback' => $feedback
+        ],[
+          'ckey' => $this->user->ckey
+        ]);
+        (new StatbusController($this->container))->submitToAuditLog('FBL', "Updated feedback link to '$feedback'");
+        $this->user->rank->feedback = $feedback;
+      } catch (Exception $e){
+        return $this->view->render($response, 'base/error.tpl',[
+          'message'  => $e->getMessage(),
+          'code'     => 500
+        ]);
+      }
+    }
+    if(FALSE === $request->getAttribute('csrf_status')){
+      return $this->view->render($response, 'base/error.tpl',[
+        'message'  => "CSRF failure. This action is denied.",
+        'code'     => 403,
+        'link'     => $url,
+        'linkText' => 'Back'
+      ]);
+    }
+    return $this->view->render($response, 'tgdb/feedback.tpl',[
+      'feedback' => $this->user->rank->feedback
     ]);
   }
 }

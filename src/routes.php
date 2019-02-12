@@ -37,6 +37,9 @@ $app->group('', function () {
 
   //Index
   $this->get('/me', \Statbus\Controllers\UserController::class . ':me')->setName('me');
+
+  //My role time
+  $this->get('/me/roles', \Statbus\Controllers\PlayerController::class . ':getPlayerRoleTime')->setName('me.roles');
 });
 
 //Rounds
@@ -89,7 +92,7 @@ $app->group('', function () {
 $app->group('', function () {
 
   //Admin Activity
-  $this->get('/info/admins', \Statbus\Controllers\StatbusController::class . ':DoAdminsPlay')->setName('admin_connections');
+  $this->get('/info/admins[/wiki]', \Statbus\Controllers\StatbusController::class . ':DoAdminsPlay')->setName('admin_connections');
 
   //Admin Activity
   $this->get('/info/adminlogs[/page/{page}]', \Statbus\Controllers\StatbusController::class . ':adminLogs')->setName('admin_logs');
@@ -109,6 +112,7 @@ $app->group('', function () {
   //Single Book
   $this->get('/library/{id:[0-9]+}', \Statbus\Controllers\LibraryController::class . ':single')->setName('library.single');
 
+  //Delete Book (admin only)
   $this->post('/library/{id:[0-9]+}/delete', \Statbus\Controllers\LibraryController::class . ':deleteBook')->setName('library.delete');
 });
 
@@ -126,5 +130,19 @@ $app->group('', function () {
 
   //Single Player View
   $this->get('/tgdb/player/{ckey:[a-z0-9]+}', \Statbus\Controllers\PlayerController::class . ':getPlayer')->setName('player.single');
+
+  //Single Player Role Time View
+  $this->get('/tgdb/player/{ckey:[a-z0-9]+}/roles', \Statbus\Controllers\PlayerController::class . ':getPlayerRoleTime')->setName('player.roletime');
+
+  //Typeahead
+  $this->get('/tgdb/suggest', \Statbus\Controllers\PlayerController::class . ':findCkeys')->setName('player.suggest');
+
+  //Admin Activity
+  $this->get('/tgdb/admin/{ckey:[a-z0-9]+}', \Statbus\Controllers\PlayerController::class . ':getAdmin')->setName('admin.single');
+
+  //Feedback link
+  $this->get('/tgdb/feedback', \Statbus\Controllers\UserController::class . ':addFeedback')->setName('admin.feedback');
+
+  $this->post('/tgdb/feedback', \Statbus\Controllers\UserController::class . ':addFeedback')->setName('admin.feedback');
 
 })->add(new \Statbus\Middleware\UserGuard($container));
