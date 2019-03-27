@@ -176,9 +176,9 @@ class StatbusController extends Controller {
 
   public function getPolyLine() {
     if($this->container->get('settings')['statbus']['remote_log_src']){
-      $server = pick('sybil,terry');
+      $server = pick('hippiestation');
       try {
-        $poly = $this->guzzle->request('GET','https://tgstation13.org/parsed-logs/'.$server.'/data/npc_saves/Poly.json');
+        $poly = $this->guzzle->request('GET','https://logs.hippiestation.com/'.$server.'/data/npc_saves/Poly.json');
         $poly = json_decode((string) $poly->getBody(), TRUE);
         return pick($poly['phrases']);
       }
