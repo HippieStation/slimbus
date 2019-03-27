@@ -14,6 +14,7 @@ class StatbusController extends Controller {
     parent::__construct($container);
     $this->guzzle = $this->container->get('guzzle');
     $this->user = $this->container->get('user');
+    $this->sb = $this->container->get('settings')['statbus'];
   }
 
   public function index($request, $response, $args) {
@@ -35,12 +36,16 @@ class StatbusController extends Controller {
 
   public function doAdminsPlay($request, $response, $args){
     $args = $request->getQueryParams();
+    $maxRange = 30;
+    if($this->user->canAccessTGDB){
+      $maxRange = 90;
+    }
     if(isset($args['interval'])) {
       $options = array(
         'options'=>array(
         'default'=>20,
         'min_range'=>2,
-        'max_range'=>30
+        'max_range'=>$maxRange
       ));
       $interval = filter_var($args['interval'], FILTER_VALIDATE_INT, $options);
     } else {
@@ -96,7 +101,8 @@ class StatbusController extends Controller {
       'admins'   => $admins,
       'interval' => $interval,
       'perms'    => $perms,
-      'wide'     => true
+      'wide'     => true,
+      'maxRange' => $maxRange
     ]);
   }
 
@@ -171,9 +177,14 @@ class StatbusController extends Controller {
   public function getPolyLine() {
     if($this->container->get('settings')['statbus']['remote_log_src']){
       $server = pick('sybil,terry');
-      $poly = $this->guzzle->request('GET','https://tgstation13.org/parsed-logs/'.$server.'/data/npc_saves/Poly.json');
-      $poly = json_decode((string) $poly->getBody(), TRUE);
-      return pick($poly['phrases']);
+      try {
+        $poly = $this->guzzle->request('GET','https://tgstation13.org/parsed-logs/'.$server.'/data/npc_saves/Poly.json');
+        $poly = json_decode((string) $poly->getBody(), TRUE);
+        return pick($poly['phrases']);
+      }
+      catch (\Guzzle\Http\Exception\ConnectException $e) {
+        $response = json_encode((string)$e->getResponse()->getBody());
+      }
     } else {
       return false;
     }
@@ -199,7 +210,8 @@ class StatbusController extends Controller {
         return $this->view->render($this->response, 'info/heatmap.tpl',[
           'data'      => json_encode($data->data),
           'fromCache' => TRUE,
-          'hash'      => $hash
+          'hash'      => $hash,
+          'wide'      =>TRUE
         ]);
       }
     }
@@ -231,6 +243,59 @@ class StatbusController extends Controller {
       'text'   => $text,
       'ckey'   => ($this->user->ckey) ? $this->user->ckey : null,
       'ip'     => ip2long($_SERVER['REMOTE_ADDR'])
+    ]);
+  }
+
+  public function electionManager($request, $response, $args) {
+    if($request->isPost() && $this->sb['election_officer'] === $this->user->ckey){
+      $update = $request->getParsedBody()['candidates'];
+      $update = explode(",", $update);
+      foreach($update as &$u){
+        $u = strtolower(preg_replace("/[^a-zA-Z0-9]/", '', $u));
+      }
+      try{
+        $handle = fopen(ROOTDIR."/tmp/candidates.json", 'w+');
+        fwrite($handle, json_encode($update));
+        fclose($handle);
+      } catch(Excention $e){
+        die($e->getMessage());
+      }
+    }
+    $args = $request->getQueryParams();
+    if(isset($args['interval'])) {
+      $options = array(
+        'options'=>array(
+        'default'=>60,
+        'min_range'=>2,
+        'max_range'=>180
+      ));
+      $interval = filter_var($args['interval'], FILTER_VALIDATE_INT, $options);
+    } else {
+      $interval = 60;
+    }
+    $list = "('".implode("','",$this->sb['candidates'])."')";
+    $candidates = $this->DB->run("SELECT A.ckey,
+      (SELECT count(C.id) FROM tbl_connection_log AS C
+      WHERE A.ckey = C.ckey AND C.datetime BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()) AS connections,
+      (SELECT sum(G.delta) FROM tbl_role_time_log AS G
+      WHERE A.ckey = G.ckey AND G.job = 'Ghost' AND G.datetime BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()) AS ghost,
+      (SELECT sum(L.delta) FROM tbl_role_time_log AS L
+      WHERE A.ckey = L.ckey
+      AND L.job = 'Living'
+      AND L.datetime BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()
+      ) AS living
+      FROM tbl_player as A
+      WHERE A.ckey IN $list
+      GROUP BY A.ckey;", $interval, $interval, $interval);
+    $pm = new Player($this->container->get('settings')['statbus']);
+    foreach ($candidates as &$a){
+      $a->total = $a->ghost + $a->living;
+      $a = $pm->parsePlayer($a);
+    }
+    return $this->view->render($response, 'election/candidates.tpl',[
+      'interval' => $interval,
+      'admins' => $candidates,
+      'list' => str_replace(['(',')',"'"], '', $list)
     ]);
   }
 }

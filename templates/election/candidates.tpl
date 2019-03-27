@@ -1,10 +1,10 @@
 {% extends "base/index.html"%}
 {% block content %}
-<h2>Admin Play Activity</h2>
+<h2>Candidate Activity</h2>
 <hr>
 <form class="form-inline" method="GET" action="">
   <div class="form-group">
-    <input type="number" max='{{maxRange}}' min='2' class="form-control mx-sm-3" id="interval" placeholder="Days" value="{{interval}}" name="interval">
+    <input type="number" max='180' min='2' class="form-control mx-sm-3" id="interval" placeholder="Days" value="{{interval}}" name="interval">
     <small class="text-muted">
       Days
     </small>
@@ -12,26 +12,16 @@
   <button type="submit" class="btn btn-primary ml-4">View Activity</button>
 </form>
 <hr>
-<style>
-.perm-flag {
-  font-size: 25%;
-}
+<p>This page shows the time spent as a ghost and time spent living for the Headmin Candidates listed below, along with the number of times their ckey has connected to the servers.</p>
 
-.perm-flag:before {
-  display: none;
-}
-</style>
+<hr>
 <table class="table table-sm table-bordered sort">
   <thead>
     <tr>
       <th>ckey</th>
-      <th data-toggle="tooltip" title="Time spent as ghost is roughly equated with active adminning. Time spent living is time roughly equated with playing instead of adminning.">Play time</th>
+      <th>Play time</th>
       <th>Connections</th>
       <th>Rank</th>
-      <th class="perm-flag">Feedback</th>
-      {% for name, bits in perms %}
-      <th class="perm-flag">{{name}}</th>
-      {% endfor %}
     </tr>
   </thead>
   <tbody>
@@ -50,17 +40,18 @@
         </td>
         <td>{{a.connections}}</td>
         <td>{{a.rank}}</td>
-        <td>{% if a.feedback %}<a href="{{a.feedback}}" target="_blank" rel="noopener noreferrer">Thread</a>{% endif %}</td>
-        {% for name, bits in perms %}
-          {% if a.flags b-and bits %}
-          <td class="table-success text-success text-center" data-toggle="tooltip" title="{{a.ckey}} has {{name}}"><i class="far fa-check-circle"></i></td>
-          {% else %}
-          <td class="table-danger text-danger text-center" data-toggle="tooltip" title="{{a.ckey}} does not have {{name}}"><i class="far fa-times-circle"></i></td>
-          {% endif %}
-        {% endfor %}
       </tr>
     {% endfor %}
   </tbody>
 </table>
 
+{% if settings.election_officer == user.ckey %}
+<hr>
+<p class="lead">Paste in a list of ckeys to show on the board above. Each ckey should match <code>[a-zA-Z0-9]</code> and should be separated by a comma (<code>,</code>)</p>
+<form class="form" action="{{path_for('election')}}" method="POST">
+<input type='text' class="form-control" name="candidates" value="{{list}}">
+  <hr>
+  <button type="submit" class="btn btn-primary">Update Candidate Listing</button>
+</form>
+{% endif %}
 {% endblock %}

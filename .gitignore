@@ -5,5 +5,7 @@ composer.lock
 src/conf/servers.json
 src/conf/ranks.json
 src/conf/alert.html*
+src/conf/candidates.json
 composer.lock
 /.db
+/templates/tracker.html

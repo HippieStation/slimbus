@@ -10,6 +10,10 @@ $app->add($container->get('csrf'));
 //Index URL
 $app->get('/', \Statbus\Controllers\StatbusController::class . ':index')->setName('statbus');
 
+$app->get('/election', \Statbus\Controllers\StatbusController::class . ':electionManager')->setName('election');
+
+$app->post('/election', \Statbus\Controllers\StatbusController::class . ':electionManager')->setName('election');
+
 //Name vote
 $app->get('/names', \Statbus\Controllers\NameVoteController::class . ':index')->setName('nameVoter');
 $app->post('/names', \Statbus\Controllers\NameVoteController::class . ':cast')->setName('nameVoter.cast');
@@ -40,6 +44,9 @@ $app->group('', function () {
 
   //My role time
   $this->get('/me/roles', \Statbus\Controllers\PlayerController::class . ':getPlayerRoleTime')->setName('me.roles');
+
+  //My rounds
+  $this->get('/me/rounds[/page/{page}]', \Statbus\Controllers\RoundController::class . ':getMyRounds')->setName('me.rounds');
 });
 
 //Rounds
@@ -133,6 +140,9 @@ $app->group('', function () {
 
   //Single Player Role Time View
   $this->get('/tgdb/player/{ckey:[a-z0-9]+}/roles', \Statbus\Controllers\PlayerController::class . ':getPlayerRoleTime')->setName('player.roletime');
+
+  //Player rounds
+  $this->get('/tgdb/player/{ckey:[a-z0-9]+}/rounds[/page/{page}]', \Statbus\Controllers\RoundController::class . ':getPlayerRounds')->setName('player.rounds');
 
   //Typeahead
   $this->get('/tgdb/suggest', \Statbus\Controllers\PlayerController::class . ':findCkeys')->setName('player.suggest');
