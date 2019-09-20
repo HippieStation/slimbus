@@ -1,4 +1,4 @@
-FROM php:7.2
+FROM php:7.3.9
 WORKDIR /usr/src/myapp
 ENV DEBIAN_FRONTEND=noninteractive
 
