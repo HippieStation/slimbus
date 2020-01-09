@@ -372,16 +372,16 @@
         },
         {
             "name": "kevinrob/guzzle-cache-middleware",
-            "version": "v3.2.1",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kevinrob/guzzle-cache-middleware.git",
-                "reference": "dda34401a68c54f06c9338a2cc30ae0aecd879a1"
+                "reference": "3a1bb0c383fcef5c778dac4b097d8de3868439de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kevinrob/guzzle-cache-middleware/zipball/dda34401a68c54f06c9338a2cc30ae0aecd879a1",
-                "reference": "dda34401a68c54f06c9338a2cc30ae0aecd879a1",
+                "url": "https://api.github.com/repos/Kevinrob/guzzle-cache-middleware/zipball/3a1bb0c383fcef5c778dac4b097d8de3868439de",
+                "reference": "3a1bb0c383fcef5c778dac4b097d8de3868439de",
                 "shasum": ""
             },
             "require": {
@@ -398,12 +398,12 @@
                 "psr/cache": "^1.0"
             },
             "suggest": {
-                "doctrine/cache": "This library have a lot of ready-to-use cache storage (to be use with Kevinrob\\GuzzleCache\\Storage\\DoctrineCacheStorage)",
-                "guzzlehttp/guzzle": "For using this library. It was created for Guzzle6. (but you can use it with any PSR-7 HTTP Client)",
-                "laravel/framework": "To be use with Kevinrob\\GuzzleCache\\Storage\\LaravelCacheStorage",
-                "league/flysystem": "To be use with Kevinrob\\GuzzleCache\\Storage\\FlysystemStorage",
-                "psr/cache": "To be use with Kevinrob\\GuzzleCache\\Storage\\Psr6CacheStorage",
-                "psr/simple-cache": "To be use with Kevinrob\\GuzzleCache\\Storage\\Psr16CacheStorage"
+                "doctrine/cache": "This library has a lot of ready-to-use cache storage (to be used with Kevinrob\\GuzzleCache\\Storage\\DoctrineCacheStorage).",
+                "guzzlehttp/guzzle": "For using this library. It was created for Guzzle6 (but you can use it with any PSR-7 HTTP client).",
+                "laravel/framework": "To be used with Kevinrob\\GuzzleCache\\Storage\\LaravelCacheStorage",
+                "league/flysystem": "To be used with Kevinrob\\GuzzleCache\\Storage\\FlysystemStorage",
+                "psr/cache": "To be used with Kevinrob\\GuzzleCache\\Storage\\Psr6CacheStorage",
+                "psr/simple-cache": "To be used with Kevinrob\\GuzzleCache\\Storage\\Psr16CacheStorage"
             },
             "type": "library",
             "autoload": {
@@ -445,7 +445,7 @@
                 "rfc7234",
                 "validation"
             ],
-            "time": "2018-01-10T13:55:22+00:00"
+            "time": "2020-01-08T10:06:30+00:00"
         },
         {
             "name": "league/flysystem",
