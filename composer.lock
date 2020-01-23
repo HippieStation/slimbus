@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be8d1813bfcb6b9b701c77e694b709ac",
+    "content-hash": "3ef02cec18204a73f41f5f143fd8e28d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1296,26 +1296,29 @@
         },
         {
             "name": "slim/twig-view",
-            "version": "2.5.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Twig-View.git",
-                "reference": "06ef39b58d60b11a9546893fd0b7fff2bd901798"
+                "reference": "46bc497bada017c24e6736f80af1baa8c6cc71d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Twig-View/zipball/06ef39b58d60b11a9546893fd0b7fff2bd901798",
-                "reference": "06ef39b58d60b11a9546893fd0b7fff2bd901798",
+                "url": "https://api.github.com/repos/slimphp/Twig-View/zipball/46bc497bada017c24e6736f80af1baa8c6cc71d3",
+                "reference": "46bc497bada017c24e6736f80af1baa8c6cc71d3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.0",
+                "php": "^7.1",
                 "psr/http-message": "^1.0",
-                "twig/twig": "^1.38|^2.7"
+                "slim/slim": "^4.0",
+                "twig/twig": "^2.8|^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.7",
-                "slim/slim": "^3.10"
+                "phpstan/phpstan": "^0.11.15",
+                "phpunit/phpunit": "^7.5",
+                "psr/http-factory": "^1.0",
+                "squizlabs/php_codesniffer": "^3.4.2"
             },
             "type": "library",
             "autoload": {
@@ -1332,10 +1335,15 @@
                     "name": "Josh Lockhart",
                     "email": "hello@joshlockhart.com",
                     "homepage": "http://joshlockhart.com"
+                },
+                {
+                    "name": "Pierre Berube",
+                    "email": "pierre@lgse.com",
+                    "homepage": "http://www.lgse.com"
                 }
             ],
-            "description": "Slim Framework 3 view helper built on top of the Twig 2 templating component",
-            "homepage": "http://slimframework.com",
+            "description": "Slim Framework 4 view helper built on top of the Twig (2 and 3) templating component",
+            "homepage": "https://www.slimframework.com",
             "keywords": [
                 "framework",
                 "slim",
@@ -1343,7 +1351,7 @@
                 "twig",
                 "view"
             ],
-            "time": "2019-04-06T16:34:38+00:00"
+            "time": "2019-12-02T23:40:24+00:00"
         },
         {
             "name": "symfony/console",
