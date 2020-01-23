@@ -10,8 +10,7 @@
   %}
   {% include 'components/pagination.html' with vars %}
   {% for message in messages %}
-
-  {% include 'messages/html/single.html' %}
+    {% include 'messages/html/single.html' %}
   {% endfor %}
 
   {% include 'components/pagination.html' with vars %}

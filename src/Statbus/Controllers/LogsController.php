@@ -47,7 +47,7 @@ class LogsController Extends Controller {
       return false;
     }
     try{
-      $handle = fopen($this->zip, 'w+');
+      $handle = fopen($this->zip, 'w');
       fwrite($handle, $logs);
       fclose($handle);
     } catch(Excention $e){
@@ -65,7 +65,7 @@ class LogsController Extends Controller {
     }
     return $this->listing;
   }
-  public function getFile($file, $raw = false){
+  public function getFile($file, $format = false){
     if (!in_array($file, [
       'atmos.html',
       // 'attack.txt',
@@ -78,6 +78,7 @@ class LogsController Extends Controller {
       'newscaster.json',
       'pda.txt',
       'portals.html',
+      'profiler.json',
       'qdel.txt',
       'radiation.html',
       'records.html',
@@ -101,11 +102,21 @@ class LogsController Extends Controller {
     } else {
     $this->file = filter_var($this->file, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_NO_ENCODE_QUOTES);
     }
-    if ($raw){
-      return $this->file;
+    switch($format){
+      default:
+        $this->parseLogFile($file);
+        return $this->file;
+      break;
+
+      case 'raw':
+        return $this->file;
+      break;
+
+      case 'json':
+        $this->parseLogFile($file);
+        return $this->file;
+      break;
     }
-    $this->parseLogFile($file);
-    return $this->file;
   }
 
   private function parseLogFile($file){
@@ -139,6 +150,10 @@ class LogsController Extends Controller {
         $this->parsePDA();
       break;
 
+      case 'profiler.json':
+        $this->parseProfiler();
+      break;
+
       case 'records.html':
         $this->genericLogParse('records.html');
         $this->parseRecords();
@@ -164,6 +179,16 @@ class LogsController Extends Controller {
 
   private function parseAtmosLogs(){
 
+  }
+
+  private function parseProfiler(){
+    $profile = json_decode($this->file);
+    foreach ($profile as $k => $v){
+      if (0 === $v->self && 0 === $v->total && 0 === $v->real && 0 === $v->over && 1 === $v->calls){
+        unset($profile[$k]);
+      }
+    }
+    $this->file = $profile;
   }
 
   private function parseRecords(){
