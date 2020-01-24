@@ -68,10 +68,10 @@ class PlayerController Extends Controller {
       floor((G.minutes + L.minutes) / 60) AS hours,
       DATEDIFF(CURDATE(),tbl_player.lastseen) AS days
       FROM tbl_player
-      LEFT JOIN tbl_connection_log ON tbl_connection_log.ckey = tbl_player.ckey
-      LEFT JOIN tbl_role_time AS G ON G.ckey = tbl_player.ckey AND G.job = 'Ghost'
-      LEFT JOIN tbl_role_time AS L ON L.ckey = tbl_player.ckey AND L.job = 'Living'
-      LEFT JOIN tbl_admin ON tbl_player.ckey = tbl_admin.ckey
+      JOIN tbl_connection_log ON tbl_connection_log.ckey = tbl_player.ckey
+      JOIN tbl_role_time AS G ON G.ckey = tbl_player.ckey AND G.job = 'Ghost'
+      JOIN tbl_role_time AS L ON L.ckey = tbl_player.ckey AND L.job = 'Living'
+      JOIN tbl_admin ON tbl_player.ckey = tbl_admin.ckey
       WHERE tbl_player.ckey = ?", $ckey);
   }
 
@@ -143,10 +143,10 @@ class PlayerController Extends Controller {
       floor((G.minutes + L.minutes) / 60) AS hours,
       DATEDIFF(CURDATE(),tbl_player.lastseen) AS days
       FROM tbl_player
-      LEFT JOIN tbl_connection_log ON tbl_connection_log.ckey = tbl_player.ckey
-      LEFT JOIN tbl_role_time AS G ON G.ckey = tbl_player.ckey AND G.job = 'Ghost'
-      LEFT JOIN tbl_role_time AS L ON L.ckey = tbl_player.ckey AND L.job = 'Living'
-      LEFT JOIN tbl_admin ON tbl_player.ckey = tbl_admin.ckey
+      JOIN tbl_connection_log ON tbl_connection_log.ckey = tbl_player.ckey
+      JOIN tbl_role_time AS G ON G.ckey = tbl_player.ckey AND G.job = 'Ghost'
+      JOIN tbl_role_time AS L ON L.ckey = tbl_player.ckey AND L.job = 'Living'
+      JOIN tbl_admin ON tbl_player.ckey = tbl_admin.ckey
       WHERE tbl_player.ip = ?", $IP);
   }
 
@@ -210,8 +210,8 @@ class PlayerController Extends Controller {
       I.ckey AS ip_alts,
       C.ckey AS cid_alts
       FROM tbl_player AS P
-      LEFT JOIN tbl_connection_log AS I ON I.ip = P.ip AND I.ckey != P.ckey
-      LEFT JOIN tbl_connection_log AS C ON C.computerid = P.computerid AND P.ckey != C.ckey
+      JOIN tbl_connection_log AS I ON I.ip = P.ip AND I.ckey != P.ckey
+      JOIN tbl_connection_log AS C ON C.computerid = P.computerid AND P.ckey != C.ckey
       WHERE P.ckey = ?
       GROUP BY ip_alts, cid_alts;", $ckey);
     foreach ($alts as $a){
@@ -226,7 +226,7 @@ class PlayerController Extends Controller {
 
   public function countRounds($ckey){
     return $this->DB->cell("SELECT count(tbl_round.id) FROM tbl_connection_log
-      LEFT JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
+      JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
       WHERE tbl_connection_log.ckey = ?
       AND tbl_round.shutdown_datetime IS NOT NULL", $ckey);
   }
