@@ -27,8 +27,8 @@ class PollController Extends Controller {
     IF(P.endtime < NOW(), 1, 0) AS ended,
     count(tbl_poll_vote.id) + count(tbl_poll_textreply.id)  as totalVotes
     FROM tbl_poll_question P
-    LEFT JOIN tbl_poll_vote ON P.id = tbl_poll_vote.pollid
-    LEFT JOIN tbl_poll_textreply ON P.id = tbl_poll_textreply.pollid
+    JOIN tbl_poll_vote ON P.id = tbl_poll_vote.pollid
+    JOIN tbl_poll_textreply ON P.id = tbl_poll_textreply.pollid
     WHERE (P.dontshow = 0 OR  P.dontshow = 1 AND P.endtime < NOW())
     AND P.adminonly = 0
     GROUP BY P.id
@@ -63,8 +63,8 @@ class PollController Extends Controller {
     IF(tbl_poll_question.endtime < NOW(), 1, 0) AS ended,
     count(tbl_poll_vote.id) + count(tbl_poll_textreply.id) as totalVotes
     FROM tbl_poll_question
-    LEFT JOIN tbl_poll_vote ON tbl_poll_question.id = tbl_poll_vote.pollid
-    LEFT JOIN tbl_poll_textreply ON tbl_poll_question.id = tbl_poll_textreply.pollid
+    JOIN tbl_poll_vote ON tbl_poll_question.id = tbl_poll_vote.pollid
+    JOIN tbl_poll_textreply ON tbl_poll_question.id = tbl_poll_textreply.pollid
     WHERE tbl_poll_question.id = ?
     AND (tbl_poll_question.dontshow = 0 OR  tbl_poll_question.dontshow = 1 AND tbl_poll_question.endtime < NOW())
     AND tbl_poll_question.adminonly = 0
@@ -78,7 +78,7 @@ class PollController Extends Controller {
         $poll->results = $this->DB->run("SELECT COUNT(tbl_poll_vote.id) AS votes,
         tbl_poll_option.text AS `option`
         FROM tbl_poll_vote
-        LEFT JOIN tbl_poll_option ON tbl_poll_vote.optionid = tbl_poll_option.id
+        JOIN tbl_poll_option ON tbl_poll_vote.optionid = tbl_poll_option.id
         WHERE tbl_poll_vote.pollid = ?
         GROUP BY tbl_poll_vote.optionid
         ORDER BY votes DESC", $poll->id);
@@ -87,9 +87,9 @@ class PollController Extends Controller {
         COUNT(o.id) AS votes,
         o.text AS `option`
         FROM ss13poll_vote AS v
-        LEFT JOIN ss13poll_option AS o ON (v.optionid = o.id)
-        LEFT JOIN ss13player AS p ON (v.ckey = p.ckey)
-        LEFT JOIN ss13poll_question AS q ON (v.pollid = q.id) 
+        JOIN ss13poll_option AS o ON (v.optionid = o.id)
+        JOIN ss13player AS p ON (v.ckey = p.ckey)
+        JOIN ss13poll_question AS q ON (v.pollid = q.id) 
         WHERE v.pollid = ?
         AND
           (SELECT SUM(j.delta)
