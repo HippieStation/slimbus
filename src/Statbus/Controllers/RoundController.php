@@ -150,9 +150,9 @@ class RoundController Extends Controller {
       MAX(prev.id) AS prev,
       COUNT(D.id) AS deaths
       FROM tbl_round
-      LEFT JOIN tbl_round AS next ON next.id = tbl_round.id + 1
-      LEFT JOIN tbl_round AS prev ON prev.id = tbl_round.id - 1 
-      LEFT JOIN tbl_death AS D ON D.round_id = tbl_round.id
+      JOIN tbl_round AS next ON next.id = tbl_round.id + 1
+      JOIN tbl_round AS prev ON prev.id = tbl_round.id - 1 
+      JOIN tbl_death AS D ON D.round_id = tbl_round.id
       WHERE tbl_round.id = ?
       AND tbl_round.shutdown_datetime IS NOT NULL", $id);
     $round = $this->roundModel->parseRound($round);
@@ -285,7 +285,7 @@ class RoundController Extends Controller {
     $this->pages = ceil($this->DB->cell("SELECT count(tbl_feedback.id) FROM tbl_feedback WHERE key_name = ?", $stat) / $this->per_page);
     $rounds = $this->DB->run("SELECT $this->columns
       FROM tbl_feedback
-      LEFT JOIN tbl_round ON tbl_feedback.round_id = tbl_round.id
+      JOIN tbl_round ON tbl_feedback.round_id = tbl_round.id
       WHERE key_name = ?
       ORDER BY round_id DESC
       LIMIT ?,?", $stat, ($this->page * $this->per_page) - $this->per_page, $this->per_page);
@@ -303,12 +303,12 @@ class RoundController Extends Controller {
 
   public function getRoundsForCkey($ckey){
     $this->pages = ceil($this->DB->cell("SELECT count(tbl_round.id) FROM tbl_connection_log
-        LEFT JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
+        JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
         WHERE tbl_connection_log.ckey = ?
         AND tbl_round.shutdown_datetime IS NOT NULL", $ckey) / $this->per_page);
     $rounds = $this->DB->run("SELECT $this->columns
       FROM tbl_connection_log
-      LEFT JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
+      JOIN tbl_round ON tbl_connection_log.round_id = tbl_round.id
       WHERE tbl_connection_log.ckey = ?
       AND tbl_round.shutdown_datetime IS NOT NULL
       ORDER BY tbl_connection_log.`datetime` DESC
