@@ -53,7 +53,7 @@ class DeathController Extends Controller{
         tbl_death.last_words,
         tbl_death.suicide
         FROM tbl_death
-        LEFT JOIN tbl_round ON tbl_round.id = tbl_death.round_id
+        JOIN tbl_round ON tbl_round.id = tbl_death.round_id
         WHERE tbl_round.end_datetime IS NOT NULL
         ORDER BY tbl_death.tod DESC
         LIMIT ?,?", ($this->page * $this->per_page) - $this->per_page, $this->per_page);
@@ -109,7 +109,7 @@ class DeathController Extends Controller{
         tbl_death.last_words,
         tbl_death.suicide
         FROM tbl_death
-        LEFT JOIN tbl_round ON tbl_round.id = tbl_death.round_id
+        JOIN tbl_round ON tbl_round.id = tbl_death.round_id
         WHERE tbl_round.end_datetime IS NOT NULL
         AND tbl_death.round_id = ?
         ORDER BY tbl_death.tod DESC
@@ -152,6 +152,9 @@ class DeathController Extends Controller{
         tbl_death.round_id AS round,
         tbl_death.mapname,
         tbl_death.tod,
+        DATE_FORMAT(tbl_round.initialize_datetime, '%Y/%m/%d') AS demo_round_date,
+		    tbl_death.round_id,
+		    sum((TIMESTAMPDIFF(SECOND, tbl_round.initialize_datetime, tbl_death.tod))*10-1800) AS ticktod,
         tbl_death.job,
         tbl_death.special,
         tbl_death.name,
@@ -197,7 +200,7 @@ class DeathController Extends Controller{
         tbl_death.id,
         tbl_death.last_words
         FROM tbl_death
-        LEFT JOIN tbl_round ON tbl_round.id = tbl_death.round_id
+        JOIN tbl_round ON tbl_round.id = tbl_death.round_id
         WHERE tbl_death.last_words IS NOT NULL
         AND tbl_round.end_datetime IS NOT NULL
         GROUP BY tbl_death.last_words
@@ -225,7 +228,7 @@ class DeathController Extends Controller{
         tbl_death.lakey,
         tbl_death.suicide
         FROM tbl_death
-        LEFT JOIN tbl_round ON tbl_round.id = tbl_death.round_id
+        JOIN tbl_round ON tbl_round.id = tbl_death.round_id
         WHERE tbl_round.end_datetime IS NOT NULL
         AND tbl_death.z_coord = 2
         AND tbl_death.round_id = ?
