@@ -48,7 +48,7 @@ class UserController Extends Controller {
       tbl_admin_ranks.exclude_flags,
       tbl_admin_ranks.can_edit_flags
       FROM tbl_admin
-      LEFT JOIN tbl_admin_ranks ON tbl_admin.rank = tbl_admin_ranks.rank
+      JOIN tbl_admin_ranks ON tbl_admin.rank = tbl_admin_ranks.rank
       WHERE tbl_admin.ckey = ?", $this->user->ckey);
     if(!$this->user->rank){
       $this->user->rank = 'Player';
