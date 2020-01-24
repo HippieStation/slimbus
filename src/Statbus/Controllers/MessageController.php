@@ -30,7 +30,7 @@ class MessageController extends Controller {
       M.lasteditor,
       A.rank as adminrank
       FROM tbl_messages AS M
-      LEFT JOIN tbl_admin AS A ON M.adminckey = A.ckey
+      JOIN tbl_admin AS A ON M.adminckey = A.ckey
 
       WHERE M.deleted = 0
       AND M.type = 'memo'
@@ -67,9 +67,9 @@ class MessageController extends Controller {
       T.rank as targetrank,
       E.rank as editorrank
       FROM tbl_messages AS M
-      LEFT JOIN tbl_admin AS A ON M.adminckey = A.ckey
-      LEFT JOIN tbl_admin AS T ON M.targetckey = T.ckey
-      LEFT JOIN tbl_admin AS E ON M.lasteditor = E.ckey
+      JOIN tbl_admin AS A ON M.adminckey = A.ckey
+      JOIN tbl_admin AS T ON M.targetckey = T.ckey
+      JOIN tbl_admin AS E ON M.lasteditor = E.ckey
       WHERE M.deleted = 0
       AND (M.expire_timestamp > NOW() OR M.expire_timestamp IS NULL)
       ORDER BY M.timestamp DESC
@@ -126,9 +126,9 @@ class MessageController extends Controller {
       T.rank as targetrank,
       E.rank as editorrank
       FROM tbl_messages AS M
-      LEFT JOIN tbl_admin AS A ON M.adminckey = A.ckey
-      LEFT JOIN tbl_admin AS T ON M.targetckey = T.ckey
-      LEFT JOIN tbl_admin AS E ON M.lasteditor = E.ckey
+      JOIN tbl_admin AS A ON M.adminckey = A.ckey
+      JOIN tbl_admin AS T ON M.targetckey = T.ckey
+      JOIN tbl_admin AS E ON M.lasteditor = E.ckey
       WHERE M.deleted = 0
       AND (M.expire_timestamp > NOW() OR M.expire_timestamp IS NULL)
       AND M.targetckey = ?
@@ -178,9 +178,9 @@ class MessageController extends Controller {
       T.rank as targetrank,
       E.rank as editorrank
       FROM tbl_messages AS M
-      LEFT JOIN tbl_admin AS A ON M.adminckey = A.ckey
-      LEFT JOIN tbl_admin AS T ON M.targetckey = T.ckey
-      LEFT JOIN tbl_admin AS E ON M.lasteditor = E.ckey
+      JOIN tbl_admin AS A ON M.adminckey = A.ckey
+      JOIN tbl_admin AS T ON M.targetckey = T.ckey
+      JOIN tbl_admin AS E ON M.lasteditor = E.ckey
       WHERE M.id = ?
       ORDER BY M.timestamp DESC", $id);
     $message = $this->messageModel->parseMessage($message);
