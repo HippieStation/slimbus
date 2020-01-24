@@ -67,7 +67,7 @@ class StatbusController extends Controller {
       AND L.datetime BETWEEN CURDATE() - INTERVAL ? DAY AND CURDATE()
       ) AS living
       FROM tbl_admin as A
-      LEFT JOIN tbl_admin_ranks AS R ON A.rank = R.rank
+      JOIN tbl_admin_ranks AS R ON A.rank = R.rank
       GROUP BY A.ckey;", $interval, $interval, $interval);
     $perms = $this->container->get('settings')['statbus']['perm_flags'];
 
@@ -120,7 +120,7 @@ class StatbusController extends Controller {
       L.log,
       IF(A.rank IS NULL, 'Player', A.rank) as adminrank
       FROM tbl_admin_log as L
-      LEFT JOIN tbl_admin as A ON L.adminckey = A.ckey
+      JOIN tbl_admin as A ON L.adminckey = A.ckey
       ORDER BY L.datetime DESC
       LIMIT ?,?", ($this->page * $this->per_page) - $this->per_page, $this->per_page);
     $pm = new Player($this->container->get('settings')['statbus']);
