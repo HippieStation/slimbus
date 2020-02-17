@@ -381,16 +381,16 @@
         },
         {
             "name": "kevinrob/guzzle-cache-middleware",
-            "version": "v3.3.0",
+            "version": "v3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Kevinrob/guzzle-cache-middleware.git",
-                "reference": "3a1bb0c383fcef5c778dac4b097d8de3868439de"
+                "reference": "f978b8da7484a16e26589a5518d6bacc6ccdee99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Kevinrob/guzzle-cache-middleware/zipball/3a1bb0c383fcef5c778dac4b097d8de3868439de",
-                "reference": "3a1bb0c383fcef5c778dac4b097d8de3868439de",
+                "url": "https://api.github.com/repos/Kevinrob/guzzle-cache-middleware/zipball/f978b8da7484a16e26589a5518d6bacc6ccdee99",
+                "reference": "f978b8da7484a16e26589a5518d6bacc6ccdee99",
                 "shasum": ""
             },
             "require": {
@@ -403,8 +403,9 @@
                 "guzzlehttp/guzzle": "^6.0",
                 "illuminate/cache": "^5.0",
                 "league/flysystem": "^1.0",
-                "phpunit/phpunit": "^4.0 || ^5.0",
-                "psr/cache": "^1.0"
+                "phpunit/phpunit": "^4.8.36 || ^5.0",
+                "psr/cache": "^1.0",
+                "symfony/phpunit-bridge": "^4.4 || ^5.0"
             },
             "suggest": {
                 "doctrine/cache": "This library has a lot of ready-to-use cache storage (to be used with Kevinrob\\GuzzleCache\\Storage\\DoctrineCacheStorage).",
@@ -454,7 +455,7 @@
                 "rfc7234",
                 "validation"
             ],
-            "time": "2020-01-08T10:06:30+00:00"
+            "time": "2020-02-14T11:17:02+00:00"
         },
         {
             "name": "league/flysystem",
