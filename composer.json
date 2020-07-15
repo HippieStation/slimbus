@@ -8,7 +8,7 @@
     "require": {
         "php": ">=5.5.0",
         "slim/slim": "^4.2",
-        "slim/php-view": "^2.0",
+        "slim/php-view": "^3.0",
         "vlucas/phpdotenv": "^4.1",
         "paragonie/easydb": "@dev",
         "slim/twig-view": "^3.0",
