@@ -17,7 +17,7 @@
         "kevinrob/guzzle-cache-middleware": "^3.2",
         "league/flysystem": "^1.0",
         "doctrine/cache": "^1.7",
-        "slim/csrf": "1.0.0",
+        "slim/csrf": "1.1.0",
         "sensiolabs/security-checker": "^5.0",
         "twig/extensions": "*"
     },

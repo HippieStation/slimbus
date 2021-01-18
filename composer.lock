@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7f1070569fae88f98193830351c9f0d",
+    "content-hash": "2841a22964002e0f07c6055327d7d216",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -817,6 +817,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory/tree/master"
+            },
             "time": "2019-04-30T12:38:16+00:00"
         },
         {
@@ -867,6 +870,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/master"
+            },
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -920,6 +926,10 @@
                 "response",
                 "server"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-handler/issues",
+                "source": "https://github.com/php-fig/http-server-handler/tree/master"
+            },
             "time": "2018-10-30T16:46:14+00:00"
         },
         {
@@ -973,6 +983,10 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/master"
+            },
             "time": "2018-10-30T17:12:04+00:00"
         },
         {
@@ -1110,16 +1124,16 @@
         },
         {
             "name": "slim/csrf",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim-Csrf.git",
-                "reference": "827c915a4cc93f1749f5a2556c33f3c86917a9ea"
+                "reference": "fd03c9ed0aaf62c85bbb775aae2126a69e8a5f72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim-Csrf/zipball/827c915a4cc93f1749f5a2556c33f3c86917a9ea",
-                "reference": "827c915a4cc93f1749f5a2556c33f3c86917a9ea",
+                "url": "https://api.github.com/repos/slimphp/Slim-Csrf/zipball/fd03c9ed0aaf62c85bbb775aae2126a69e8a5f72",
+                "reference": "fd03c9ed0aaf62c85bbb775aae2126a69e8a5f72",
                 "shasum": ""
             },
             "require": {
@@ -1130,9 +1144,9 @@
                 "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
-                "phpspec/prophecy": "^1.8",
+                "phpspec/prophecy": "^1.10",
                 "phpunit/phpunit": "^7.5",
-                "squizlabs/php_codesniffer": "^3.4.2"
+                "squizlabs/php_codesniffer": "^3.5.8"
             },
             "type": "library",
             "autoload": {
@@ -1159,7 +1173,11 @@
                 "middleware",
                 "slim"
             ],
-            "time": "2019-09-13T14:32:01+00:00"
+            "support": {
+                "issues": "https://github.com/slimphp/Slim-Csrf/issues",
+                "source": "https://github.com/slimphp/Slim-Csrf/tree/1.1.0"
+            },
+            "time": "2021-01-08T00:36:54+00:00"
         },
         {
             "name": "slim/php-view",
@@ -1795,5 +1813,6 @@
     "platform": {
         "php": ">=5.5.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
